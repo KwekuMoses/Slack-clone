@@ -37,7 +37,7 @@ router.post("/view-profile", (request, response) => {
       console.log(profile_pic);
 
       //* Name är en egenskap som kommer med från express
-      let file_name = `./uploads/${profile_pic.name}`;
+      let file_name = `routes/uploads/${profile_pic.name}`;
 
       //*mv är en inbyggd metod som hjälper oss ange vart filen ska hamna
       profile_pic.mv(file_name);
