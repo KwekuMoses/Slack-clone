@@ -4,7 +4,7 @@ var router = express.Router();
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-
+require("../config/passport")(passport);
 /* GET users listing. */
 router.get("/", function (req, res, next) {
   res.send("respond with a resource");
@@ -65,7 +65,7 @@ router.get("/login", function (req, res, next) {
   res.render("login");
 });
 
-//* Här hanterar vi vår postaction som vi gör på login.ejs
+//* Här hanterar vi vår post action som vi gör på login.ejs
 router.post("/login", (request, response, next) => {
   //* Om användaren lyckas authentisera sig gör vi en redirect till /dashboard osv
   passport.authenticate("local", {
@@ -73,6 +73,12 @@ router.post("/login", (request, response, next) => {
     failureRedirect: "/users/login",
     failureFlash: true,
   })(request, response, next);
+});
+
+router.get("/logout", (request, response) => {
+  request.logout();
+  request.flash("success_msg", "You have logged out");
+  response.redirect("/users/login");
 });
 
 module.exports = router;

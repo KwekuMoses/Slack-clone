@@ -13,7 +13,7 @@ const LocalStrategy = require("passport-local").Strategy;
 
 //*TODO mongoose
 mongoose
-  .connect("mongodb://localhost/login", {
+  .connect("mongodb://localhost/kweku_slack_clone", {
     //*TODO String parser när vi skickar data till vår databas
     useNewUrlParser: true,
     //*TODO The useUnifiedTopology option removes support for several connection options that are no longer relevant with the new topology engine
