@@ -1,43 +1,61 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const express = require("express");
+const router = express.Router();
+const app = express();
+const mongoose = require("mongoose");
+const expressEjsLayout = require("express-ejs-layouts");
+const session = require("express-session");
+const flash = require("connect-flash");
+const passport = require("passport");
+const path = require("path");
+const LocalStrategy = require("passport-local").Strategy;
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+//require("./config/passport")(passport);
 
-var app = express();
+//*TODO mongoose
+mongoose
+  .connect("mongodb://localhost/login", {
+    //*TODO String parser när vi skickar data till vår databas
+    useNewUrlParser: true,
+    //*TODO The useUnifiedTopology option removes support for several connection options that are no longer relevant with the new topology engine
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("connected.."))
+  .catch((err) => console.log(err));
 
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+//*EJS
+//*Tells express that you will be using ejs as your template enigne
+app.set("view engine", "ejs");
+//*När vi använder express Ejs modulen så kan vi skapa layout.ejs i vår views. Express kommer att leta upp den filen och använda den vid rendering
+app.use(expressEjsLayout);
 
-app.use(logger("dev"));
-app.use(express.json());
+//*BodyParser
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+//*TODO express session
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+//*Todo Passport
+//* Session används av passport och flash
+app.use(passport.initialize());
+app.use(passport.session());
+
+//*TODO use flash
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
+  next();
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
-});
-
+//*Routes
+app.use("/", require("./routes/index"));
+app.use("/users", require("./routes/users"));
+app.use("/dashboard", require("./routes/dashboard"));
 app.listen(3000);
-
-module.exports = app;
