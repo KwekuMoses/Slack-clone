@@ -1,3 +1,8 @@
 <h1>view-profile</h1>
 <a a href="/dashboard/edit-profile">Edit profile</a>
 <a a href="/dashboard">Go to dashboard</a>
+
+<h1>File uploaded!</h1>
+<% for (let image of images) { %>
+<img src="<%=image %>" /><br />
+<% } %>
