@@ -23,10 +23,12 @@ router.use(
     createParentPath: true,
   })
 );
+
+//* Body parser som gör så att vi kan ta emot data
 router.use(express.urlencoded({ extended: true }));
 
 //*För att visa filerna ifrån uploads mappen */
-router.use("/uploads", express.static(path.join(__dirname, "uploads")));
+//router.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 //* Hantera det som händer när vi submitar en bildfil
 router.post("/view-profile", (request, response) => {
@@ -34,15 +36,14 @@ router.post("/view-profile", (request, response) => {
     if (request.files) {
       let profile_pic = request.files.profile_pic;
 
-      console.log(profile_pic);
+      //console.log(profile_pic);
 
       //* Name är en egenskap som kommer med från express
-      let file_name = `routes/uploads/${profile_pic.name}`;
-
+      let file_name = `/uploads/${profile_pic.name}`; //*todo Ligger rätt nu
       //*mv är en inbyggd metod som hjälper oss ange vart filen ska hamna
       profile_pic.mv(file_name);
 
-      response.render("view-profile", { images: [file_name] });
+      response.render("view-profile", { image: [file_name] });
     } else {
       response.end("<h1>No file uploaded !</h1>");
     }

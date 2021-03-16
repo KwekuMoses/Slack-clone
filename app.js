@@ -54,6 +54,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 //*Routes
 app.use("/", require("./routes/index"));
 app.use("/users", require("./routes/users"));
