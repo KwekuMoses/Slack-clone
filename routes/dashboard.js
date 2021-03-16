@@ -39,11 +39,11 @@ router.post("/view-profile", (request, response) => {
       //console.log(profile_pic);
 
       //* Name är en egenskap som kommer med från express
-      let file_name = `/uploads/${profile_pic.name}`; //*todo Ligger rätt nu
+      let file_name = `./uploads/${profile_pic.name}`; //*todo Ligger rätt nu
       //*mv är en inbyggd metod som hjälper oss ange vart filen ska hamna
       profile_pic.mv(file_name);
 
-      response.render("view-profile", { image: [file_name] });
+      response.render("view-profile", { images: [file_name] });
     } else {
       response.end("<h1>No file uploaded !</h1>");
     }

@@ -3,6 +3,7 @@
 <a a href="/dashboard">Go to dashboard</a>
 
 <h1>File uploaded!</h1>
-<img src="<%=image %>" /><br />
-<%= console.log(image) %>
-<img src="../uploads/3.jpg" />
+<% for (let image of images) { %>
+    <!--? Är det en dålig lösning att ha med den här extra punkten? om jag ändrar filename i dashboard till: ../uploads, så skapas mappen utanför projektet -->
+<img src=".<%=image %>" /><br />
+<% } %>
