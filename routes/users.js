@@ -5,6 +5,7 @@ const User = require("../models/users");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 require("../config/passport")(passport);
+
 /* GET users listing. */
 router.get("/", function (req, res, next) {
   res.send("respond with a resource");
@@ -73,6 +74,11 @@ router.post("/login", (request, response, next) => {
     failureRedirect: "/users/login",
     failureFlash: true,
   })(request, response, next);
+});
+
+router.use(function (req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
 });
 
 router.get("/logout", (request, response) => {

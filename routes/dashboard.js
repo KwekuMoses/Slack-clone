@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-
 const fileUpload = require("express-fileupload");
 const path = require("path");
 
@@ -15,6 +14,11 @@ router.get("/edit-profile", function (req, res, next) {
 
 router.get("/view-profile", function (req, res, next) {
   res.render("view-profile");
+});
+
+//**DYNAMIC PARAMS PÅ NÅGOT SÄTT HÄR */
+router.get("/chat", function (req, res, next) {
+  res.render("chat");
 });
 
 //* Se variabeln file_name

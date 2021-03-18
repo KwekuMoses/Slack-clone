@@ -1,15 +1,14 @@
 const express = require("express");
-const router = express.Router();
-const app = express();
 const mongoose = require("mongoose");
 const expressEjsLayout = require("express-ejs-layouts");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const path = require("path");
-const LocalStrategy = require("passport-local").Strategy;
-
+const app = require("express")();
+const httpServer = require("http").createServer(app);
 //require("./config/passport")(passport);
+//* For the chat
 
 //*TODO mongoose
 mongoose
@@ -55,8 +54,9 @@ app.use((req, res, next) => {
 });
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 //*Routes
 app.use("/", require("./routes/index"));
 app.use("/users", require("./routes/users"));
 app.use("/dashboard", require("./routes/dashboard"));
-app.listen(3000);
+httpServer.listen(3000);

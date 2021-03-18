@@ -7,6 +7,10 @@
 <p>
    <!-- <%#= user.email %>-->
 <a href="/users/logout">Log out</a>
-<a href="/dashboard/view-profile">View Profile</a>
-<p>Chat stuff here</p>
-</p>
+<a href="/dashboard/edit-profile">Edit Profile</a>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+</script>
