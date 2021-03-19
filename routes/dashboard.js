@@ -1,5 +1,6 @@
+const app = require("../app");
 var express = require("express");
-var router = express.Router();
+var router = express.Router(app);
 const fileUpload = require("express-fileupload");
 const path = require("path");
 
