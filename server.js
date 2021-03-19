@@ -25,6 +25,7 @@ const messages = {
 //* När någon connectar till socket.io server
 io.on("connection", (socket) => {
   //? Arbitrary string? - TEST
+
   socket.on("join server", (username) => {
     const user = {
       username,
