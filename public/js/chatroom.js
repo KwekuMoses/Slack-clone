@@ -1,0 +1,51 @@
+var socket = io();
+
+const form = document.getElementById("form");
+var input = document.getElementById("input");
+
+//* Get username and roomname
+const { username, room } = Qs.parse(location.search, {
+  //*ignore frågetecken etc i url
+  ignoreQueryprefix: true,
+});
+
+socket.emit("joinRoom", { username });
+
+//* Skicka meddelanden till DOM
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  //* Om det finns ett input value i form
+  if (input.value) {
+    //* Emit chat message eventet, med input.value som det data som skickas med
+    //* chat message eventet tar formatMessage funktionen som parameter
+    socket.emit("chat message", input.value);
+    //* Clear input field
+    input.value = "";
+    //* Focus efter att ha skickat ett meddelande
+    e.target.elements.input.focus();
+  }
+});
+
+//* Hantera vår chat message emit
+socket.on("chat message", function (message) {
+  var item = document.createElement("li");
+  item.textContent = `${message.time} ${message.username}: ${message.text}`;
+  messages.appendChild(item);
+
+  //*Scroll down
+  form.scrollTo(0, document.body.scrollHeight);
+});
+
+//* i server.js gör vi en av emit av "message", här använder vi "message"
+socket.on("message", (message) => {
+  console.log(message);
+  outputMessage(message);
+});
+
+function outputMessage(message) {
+  const div = document.createElement("div");
+  //div.classList.add("message");
+  div.innerHTML = `<p class="text"><span>${message.time}</span><span>${message.username}</span> </p>
+  <p>${message.text}</p>`;
+  document.querySelector(".chat-messages").appendChild(div);
+}

@@ -4,6 +4,8 @@ const http = require("http");
 const server = http.createServer(app);
 const socket = require("socket.io");
 const io = socket(server);
+const formatMessage = require("./utils/messages");
+const { userJoin, getCurrentUser } = require("./utils/users");
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  CHAT START !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  CHAT START !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22,61 +24,40 @@ const messages = {
   javascript: [],
 };
 
+const botName = "Lord Moses";
+
 //* När någon connectar till socket.io server
 io.on("connection", (socket) => {
-  //? Arbitrary string? - TEST
+  socket.on("joinRoom", ({ username, room }) => {
+    const user = userJoin(username, room);
+    socket.join();
 
-  socket.on("join server", (username) => {
-    const user = {
-      username,
-      id: socket.id,
-    };
-    users.push(user);
-    //* Emit users array till alla -> io = server side
-    io.emit("new user", users);
+    //* Vi använder vår emit "message" i chatroom.ejs, när någon connectar skriver vi ut vår "message"
+    socket.emit("message", formatMessage(botName, "Welcome to the chat"));
+
+    //*  Vi använder vår emit "message" i chatroom.ejs, när någon connectar skriver vi ut vår "message"
+    socket.broadcast.emit(
+      "message",
+      formatMessage(botName, "A user has joined the chat")
+    );
   });
+  console.log("socket user connected");
 
-  //*När någon joinar ett rum
-  socket.on("join room", (roomName, cb) => {
-    socket.join(roomName);
-    cb(messages[roomName]);
-  });
+  //* Joina ett specifikt rum
+  socket.join("some room");
+  io.to("some room").emit("some event");
 
-  //* TO is used for functionality of either a group name or individual ID, chatname only relevant in certain instances.
-  //*? socket.to(to) is defined via client-side
-  socket.on("send message", ({ content, to, sender, chatName, isChannel }) => {
-    //* Om det är en kanal
-    if (isChannel) {
-      const payload = {
-        content,
-        //* Objektivt namn, samma för alla till gruppchat
-        chatName,
-        sender,
-      };
-      socket.to(to).emit("new message", payload);
-    } else {
-      //* Starta ny privat chat
-      const payload = {
-        content,
-        //* Namnet på personen man vill skriva till vid individuell chat
-        chatName: sender,
-        sender,
-      };
-      socket.to(to).emit("new message", payload);
-    }
-    //*? chatName is defined via client-side
-    //* Då det finns ett rum sedan tidigare
-    if (messages[chatName]) {
-      messages[chatName].push({
-        sender,
-        content,
-      });
-    }
+  //* hantera ett chat message event
+  socket.on("chat message", (message) => {
+    console.log("this is the sent message: " + message);
+    io.emit("chat message", formatMessage("USER", message));
   });
   socket.on("disconnect", () => {
-    //* Filtrera bort användaren som disconnectar och emit ny users array
-    users = users.filter((u) => u.id !== socket.id);
-    io.emit("new user", users);
+    console.log("user disconnected");
+    socket.broadcast.emit(
+      "message",
+      formatMessage(botName, "A user has left the chat")
+    );
   });
 });
 
