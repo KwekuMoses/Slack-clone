@@ -29,8 +29,11 @@ const botName = "Lord Moses";
 //* När någon connectar till socket.io server
 io.on("connection", (socket) => {
   socket.on("joinRoom", ({ username, room }) => {
-    const user = userJoin(username, room);
-    socket.join();
+    //* Every socket has a unique random automatically generated id
+    console.log(socket.id);
+    const user = userJoin(socket.id, username, room);
+    //* The room that the user joins comes from the url
+    socket.join(user.room);
 
     //* Vi använder vår emit "message" i chatroom.ejs, när någon connectar skriver vi ut vår "message"
     socket.emit("message", formatMessage(botName, "Welcome to the chat"));
