@@ -71,10 +71,11 @@ router.get("/login", function (req, res, next) {
 router.post("/login", (request, response, next) => {
   //* Om användaren lyckas authentisera sig gör vi en redirect till /dashboard osv
   passport.authenticate("local", {
-    successRedirect: "/dashboard",
+    successRedirect: `/dashboard`,
     failureRedirect: "/users/login",
     failureFlash: true,
   })(request, response, next);
+  console.log(`LOOKY HERE : ${request.name}`);
 });
 
 router.use(function (req, res, next) {

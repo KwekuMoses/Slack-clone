@@ -10,7 +10,15 @@ const io = socket(server);
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
-  res.render("dashboard");
+  let current_user = req.user;
+  let username = req.user.name;
+  console.log(`dashboard.js -> Body of current user is :  ${current_user}`);
+  console.log(`dashboard.js -> name of current user is :  ${username}`);
+
+  let rooms = [];
+  rooms.push("testing");
+
+  res.render("dashboard", { username });
 });
 
 router.get("/edit-profile", function (req, res, next) {
@@ -24,6 +32,10 @@ router.get("/view-profile", function (req, res, next) {
 //**DYNAMIC PARAMS PÅ NÅGOT SÄTT HÄR */
 router.get("/chatroom", function (req, res, next) {
   res.render("chatroom");
+});
+
+router.post("/", function (req, res) {
+  console.log("user pressed create room");
 });
 
 //* Se variabeln file_name

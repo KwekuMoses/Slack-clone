@@ -16,19 +16,20 @@
 			<main class="join-main">
 				<form action="/dashboard/chatroom">
 					<div class="form-control">
-						<label for="username">Username</label>
-						<input
-							type="text"
-							name="username"
-							id="username"
-							placeholder="Enter username..."
-							value="Get this from database later"
-							<!--required-->
-						/>
+						<label for="username" hidden>Username</label>
+						<input type="text" hidden
+                        name="username"
+                        id="username"
+                        placeholder="Enter username..."
+                        value=<%= username%>
+                        required />
+							
+						
 					</div>
 					<div class="form-control">
 						<label for="room">Room</label>
 						<select name="room" id="room">
+							<!-- For Each Room print an option-->
 							<option value="JavaScript">JavaScript</option>
 							<option value="Python">Python</option>
 							<option value="PHP">PHP</option>
@@ -46,4 +47,5 @@
     <input type="text" name="roomname" id="">
     <button type="submit">Create Room</button>
 </form>
+
 

@@ -59,7 +59,7 @@ mongoose
     //*TODO The useUnifiedTopology option removes support for several connection options that are no longer relevant with the new topology engine
     useUnifiedTopology: true,
   })
-  .then(() => console.log("connected.."))
+  .then(() => console.log("app.js -> mongoose database connected.."))
   .catch((err) => console.log(err));
 
 module.exports = app;

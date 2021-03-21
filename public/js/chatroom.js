@@ -1,15 +1,14 @@
-var socket = io();
-
 const form = document.getElementById("form");
 var input = document.getElementById("input");
 
-//* Get username and roomname
+//* Get username and roomname from URL
 const { username, room } = Qs.parse(location.search, {
   //*ignore frågetecken etc i url
-  ignoreQueryprefix: true,
+  ignoreQueryPrefix: true,
 });
+const socket = io();
 
-socket.emit("joinRoom", { username });
+socket.emit("joinRoom", { username, room });
 
 //* Skicka meddelanden till DOM
 form.addEventListener("submit", function (e) {
