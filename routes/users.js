@@ -23,7 +23,9 @@ router.post("/register", (request, response) => {
   //* Vi har en error array för att kunna printa ut eventuella error som uppstår
   let errors = [];
   //*checka att allt ser ut som det ska
-  console.log(`Name: ${name}, Email: ${email}, Password: ${password}`);
+  console.log(
+    `routes/users.js -> Name: ${name}, Email: ${email}, Password: ${password}`
+  );
 
   if (!name || !email || !password) {
     errors.push({ msg: "Please fill out all fields" });
@@ -41,7 +43,7 @@ router.post("/register", (request, response) => {
       password,
     });
   } else {
-    //*Vi skapar en User med hjälp av vår model för users som ligger i models.
+    //*Vi skapar en User med hjälp av vår model för users som ligger i models/users.js.
     const newUser = new User({
       name,
       email,
@@ -75,7 +77,7 @@ router.post("/login", (request, response, next) => {
     failureRedirect: "/users/login",
     failureFlash: true,
   })(request, response, next);
-  console.log(`LOOKY HERE : ${request.name}`);
+  console.log(`routes/users.js ${request.name}`);
 });
 
 router.use(function (req, res, next) {

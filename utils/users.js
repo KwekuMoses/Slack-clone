@@ -5,7 +5,7 @@ const users = [];
 //*Join user to chat
 function userJoin(id, username, room) {
   //*User is an object with id,username and room. In server.js we define these variables where we define our 'const user'
-  //TODO: Username ska hämtas från databasen senare!
+  //* Username hämtas från databasen
   const user = { id, username, room };
   users.push(user);
 

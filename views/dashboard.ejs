@@ -29,7 +29,7 @@
 					<div class="form-control">
 						<label for="room">Room</label>
 						<select name="room" id="room">
-							<!-- For Each Room print an option-->
+							<!-- Denna lista nedan ska hämta dess value från databasen typ for each rooms.name-->
 							<option value="JavaScript">JavaScript</option>
 							<option value="Python">Python</option>
 							<option value="PHP">PHP</option>
@@ -43,9 +43,10 @@
 			</main>
 		</div>
 
-<form action="/dashboard" method="POST" id="room">
-    <input type="text" name="roomname" id="">
+<form action="" method="post" id="room_form">
+    <input type="text" type="room" name="room" id="room_id" value="<%= typeof room != 'undefined' ? room : '' %>">
     <button type="submit">Create Room</button>
 </form>
 
 
+<script src="/js/handle_rooms.js"></script>

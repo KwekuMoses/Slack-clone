@@ -7,6 +7,7 @@ const http = require("http");
 const server = http.createServer(app);
 const socket = require("socket.io");
 const io = socket(server);
+const Room = require("../models/rooms");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -14,9 +15,6 @@ router.get("/", function (req, res, next) {
   let username = req.user.name;
   console.log(`dashboard.js -> Body of current user is :  ${current_user}`);
   console.log(`dashboard.js -> name of current user is :  ${username}`);
-
-  let rooms = [];
-  rooms.push("testing");
 
   res.render("dashboard", { username });
 });
@@ -29,13 +27,25 @@ router.get("/view-profile", function (req, res, next) {
   res.render("view-profile");
 });
 
-//**DYNAMIC PARAMS PÅ NÅGOT SÄTT HÄR */
 router.get("/chatroom", function (req, res, next) {
   res.render("chatroom");
 });
 
-router.post("/", function (req, res) {
-  console.log("user pressed create room");
+router.post("/", function (request, response) {
+  const { room } = request.body;
+  console.log(request.body);
+  const newRoom = new Room({
+    room,
+  });
+  console.log("NEW ROOM" + newRoom);
+  console.log(room);
+
+  newRoom
+    .save()
+    .then((value) => {
+      response.redirect("/dashboard");
+    })
+    .catch((error) => console.log(error));
 });
 
 //* Se variabeln file_name
@@ -44,13 +54,6 @@ router.use(
     createParentPath: true,
   })
 );
-
-router.post("/", function (req, res) {
-  //* För att logga ut namnet på inputfältet
-  const { roomname } = req.body;
-  console.log(roomname);
-  res.render("dashboard");
-});
 
 //* Body parser som gör så att vi kan ta emot data
 router.use(express.urlencoded({ extended: true }));
@@ -79,3 +82,6 @@ router.post("/view-profile", (request, response) => {
 });
 
 module.exports = router;
+
+//? Express.js, or simply Express, is a back end web application framework for Node.js.
+//?

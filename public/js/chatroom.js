@@ -1,6 +1,5 @@
-const form = document.getElementById("form");
+const message_form = document.getElementById("message_form");
 var input = document.getElementById("input");
-
 //* Get username and roomname from URL
 const { username, room } = Qs.parse(location.search, {
   //*ignore frågetecken etc i url
@@ -11,7 +10,7 @@ const socket = io();
 socket.emit("joinRoom", { username, room });
 
 //* Skicka meddelanden till DOM
-form.addEventListener("submit", function (e) {
+message_form.addEventListener("submit", function (e) {
   e.preventDefault();
   //* Om det finns ett input value i form
   if (input.value) {
@@ -32,7 +31,7 @@ socket.on("chat message", function (message) {
   messages.appendChild(item);
 
   //*Scroll down
-  form.scrollTo(0, document.body.scrollHeight);
+  message_form.scrollTo(0, document.body.scrollHeight);
 });
 
 //* i server.js gör vi en av emit av "message", här använder vi "message"
