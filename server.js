@@ -47,27 +47,27 @@ io.on("connection", (socket) => {
         "message",
         formatMessage(botName, `${user.username}  has joined the chat`)
       );
-  });
-  console.log(`server.js -> A socket connected to a chatroom `);
 
-  //* Joina ett specifikt rum
-  socket.join("some room");
-  io.to("some room").emit("some event");
+    console.log(`server.js -> A socket connected to a chatroom `);
 
-  //* hantera ett chat message event
-  socket.on("chat message", (message) => {
-    console.log("this is the sent message: " + message);
-    io.emit("chat message", formatMessage(`${user.username}, ${message}`));
-  });
-  socket.on("disconnect", () => {
-    console.log("server.js -> A socket disconnected");
-    socket.broadcast.emit(
-      "message",
-      formatMessage(botName, "A user has left the chat")
-    );
+    //* Joina ett specifikt rum
+    socket.join("some room");
+    io.to("some room").emit("some event");
+
+    //* hantera ett chat message event
+    socket.on("chat message", (message) => {
+      console.log("this is the sent message: " + message);
+      io.emit("chat message", formatMessage(`${user.username}, ${message}`));
+    });
+    socket.on("disconnect", () => {
+      console.log("server.js -> A socket disconnected");
+      socket.broadcast.emit(
+        "message",
+        formatMessage(botName, "A user has left the chat")
+      );
+    });
   });
 });
-
 //* Lyssna in server
 server.listen(1337, () => {
   console.log("server.js -> server is running on 1337");

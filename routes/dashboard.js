@@ -10,13 +10,23 @@ const io = socket(server);
 const Room = require("../models/rooms");
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  let current_user = req.user;
-  let username = req.user.name;
-  console.log(`dashboard.js -> Body of current user is :  ${current_user}`);
-  console.log(`dashboard.js -> name of current user is :  ${username}`);
 
-  res.render("dashboard", { username });
+//* Hämta in rumnamnen från databasen
+router.get("/", function (req, res, next) {
+  Room.find({})
+    .exec()
+    .then((result) => {
+      return result;
+    })
+    .then((result2) => {
+      console.log(result2);
+
+      let current_user = req.user;
+      let username = req.user.name;
+      console.log(`dashboard.js -> Body of current user is :  ${current_user}`);
+      console.log(`dashboard.js -> name of current user is :  ${username}`);
+      res.render("dashboard", { data: { username, result2 } });
+    });
 });
 
 router.get("/edit-profile", function (req, res, next) {
@@ -37,13 +47,13 @@ router.post("/", function (request, response) {
   const newRoom = new Room({
     room,
   });
-  console.log("NEW ROOM" + newRoom);
-  console.log(room);
+  // console.log("NEW ROOM" + newRoom);
+  // console.log(room);
 
   newRoom
     .save()
     .then((value) => {
-      response.redirect("/dashboard");
+      response.redirect("dashboard");
     })
     .catch((error) => console.log(error));
 });

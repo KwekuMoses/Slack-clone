@@ -7,6 +7,7 @@ const RoomSchema = new mongoose.Schema({
   },
 });
 //*Modellen skapar en kollektion som får namnet av vår första parameter med ett -s ... så userS, eller basketballplayerS osv.
+//* Det är första parameter värdet som refereras till vid en find
 const Room = mongoose.model("Room", RoomSchema);
 
 module.exports = Room;

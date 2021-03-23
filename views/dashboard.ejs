@@ -21,7 +21,7 @@
                         name="username"
                         id="username"
                         placeholder="Enter username..."
-                        value=<%= username%>
+                        value=<%= data.username%>
                         required />
 							
 						
@@ -29,15 +29,16 @@
 					<div class="form-control">
 						<label for="room">Room</label>
 						<select name="room" id="room">
-							<!-- Denna lista nedan ska hämta dess value från databasen typ for each rooms.name-->
-							<option value="JavaScript">JavaScript</option>
-							<option value="Python">Python</option>
-							<option value="PHP">PHP</option>
-							<option value="C#">C#</option>
-							<option value="Ruby">Ruby</option>
-							<option value="Java">Java</option>
+							<!--* Denna lista nedan hämtar dess value från databasen kollektionen heter rooms och använder models/rooms.js-->
+							<%  data.result2.forEach((element) => { %>
+									<option value="<%=element.room %>">
+										<%=element.room %>
+									</option>
+								<% }) %>
 						</select>
 					</div>
+				
+
 					<button type="submit" class="btn">Join Chat</button>
 				</form>
 			</main>
