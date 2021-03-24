@@ -28,6 +28,7 @@ message_form.addEventListener("submit", function (e) {
 socket.on("chat message", function (message) {
   var item = document.createElement("li");
   item.textContent = `${message.time} ${message.username}: ${message.text}`;
+  // item.textContent = `${message.time} ${message.username}`;
   messages.appendChild(item);
 
   //*Scroll down

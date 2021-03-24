@@ -56,8 +56,8 @@ io.on("connection", (socket) => {
 
     //* hantera ett chat message event
     socket.on("chat message", (message) => {
-      console.log("this is the sent message: " + message);
-      io.emit("chat message", formatMessage(`${user.username}, ${message}`));
+      console.log("server.js -> this is the sent message: " + message);
+      io.emit("chat message", formatMessage(user.username, message));
     });
     socket.on("disconnect", () => {
       console.log("server.js -> A socket disconnected");
