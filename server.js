@@ -5,7 +5,12 @@ const server = http.createServer(app);
 const socket = require("socket.io");
 const io = socket(server);
 const formatMessage = require("./utils/messages");
-const { userJoin, getCurrentUser } = require("./utils/users");
+const {
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  getRoomUsers,
+} = require("./utils/users");
 const Message = require("./models/message");
 //* Array för users
 let users = [];
@@ -65,14 +70,17 @@ io.on("connection", (socket) => {
       newMsg.save(function (err) {
         if (err) throw err;
       });
-      io.emit("chat message", formatMessage(user.username, message));
+      io.to(user.room).emit(
+        "chat message",
+        formatMessage(user.username, message)
+      );
     });
 
     socket.on("disconnect", () => {
-      console.log("server.js -> A socket disconnected");
-      socket.broadcast.emit(
+      console.log(`server.js -> Socket of ${user.username} disconnected`);
+      io.to(user.room).emit(
         "message",
-        formatMessage(botName, "A user has left the chat")
+        formatMessage(botName, `${user.username} has left the chat`)
       );
     });
   });

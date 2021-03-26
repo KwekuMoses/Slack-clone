@@ -12,7 +12,7 @@ const Room = require("../models/rooms");
 /* GET users listing. */
 
 //* Hämta in rumnamnen från databasen
-router.get("/", function (req, res, next) {
+router.get("/:email", function (req, res, next) {
   Room.find({})
     .exec()
     .then((result) => {
@@ -40,7 +40,7 @@ router.get("/view-profile", function (req, res, next) {
 router.get("/chatroom", function (req, res, next) {
   res.redirect("chatroom");
 });
-router.post("/", function (request, response) {
+router.post("/:email", function (request, response) {
   const { room } = request.body;
   console.log(request.body);
   const newRoom = new Room({
@@ -52,7 +52,8 @@ router.post("/", function (request, response) {
   newRoom
     .save()
     .then((value) => {
-      response.redirect("dashboard");
+      response.redirect(request.originalUrl);
+      response.end();
     })
     .catch((error) => console.log(error));
 });

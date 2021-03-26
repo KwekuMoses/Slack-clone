@@ -72,8 +72,9 @@ router.get("/login", function (req, res, next) {
 //* Här hanterar vi vår post action som vi gör på login.ejs
 router.post("/login", (request, response, next) => {
   //* Om användaren lyckas authentisera sig gör vi en redirect till /dashboard osv
+  let email = request.body.email;
   passport.authenticate("local", {
-    successRedirect: `/dashboard`,
+    successRedirect: `/dashboard/${email}`,
     failureRedirect: "/users/login",
     failureFlash: true,
   })(request, response, next);
