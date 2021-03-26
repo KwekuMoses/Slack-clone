@@ -1,5 +1,4 @@
 //* Anything with users will go in here, when they join when they leave.. stuff like that
-
 const users = [];
 
 //*Join user to chat

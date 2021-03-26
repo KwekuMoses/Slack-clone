@@ -6,7 +6,7 @@ const socket = require("socket.io");
 const io = socket(server);
 const formatMessage = require("./utils/messages");
 const { userJoin, getCurrentUser } = require("./utils/users");
-
+const Message = require("./models/message");
 //* Array för users
 let users = [];
 
@@ -47,7 +47,6 @@ io.on("connection", (socket) => {
         "message",
         formatMessage(botName, `${user.username}  has joined the chat`)
       );
-
     console.log(`server.js -> A socket connected to a chatroom `);
 
     //* Joina ett specifikt rum
@@ -57,8 +56,18 @@ io.on("connection", (socket) => {
     //* hantera ett chat message event
     socket.on("chat message", (message) => {
       console.log("server.js -> this is the sent message: " + message);
+
+      var newMsg = new Message({
+        user: user.username,
+        room: user.room,
+        message: message,
+      });
+      newMsg.save(function (err) {
+        if (err) throw err;
+      });
       io.emit("chat message", formatMessage(user.username, message));
     });
+
     socket.on("disconnect", () => {
       console.log("server.js -> A socket disconnected");
       socket.broadcast.emit(

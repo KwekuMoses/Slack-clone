@@ -37,6 +37,9 @@ router.get("/view-profile", function (req, res, next) {
   res.render("view-profile");
 });
 
+router.get("/chatroom", function (req, res, next) {
+  res.redirect("chatroom");
+});
 router.post("/", function (request, response) {
   const { room } = request.body;
   console.log(request.body);
