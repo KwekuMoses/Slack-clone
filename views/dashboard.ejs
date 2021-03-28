@@ -1,3 +1,6 @@
+<% var images; %>
+
+
 <h1>
     This is the dashboard
 </h1>
@@ -7,7 +10,7 @@
 <p>
    <!-- <%#= user.email %>-->
 <a href="/users/logout">Log out</a>
-<a href="/dashboard/edit-profile">Edit Profile</a>
+<a href="/edit-profile">Edit Profile</a>
 
 <div class="join-container">
 			<header class="join-header">
@@ -37,12 +40,25 @@
 								<% }) %>
 						</select>
 					</div>
-				
-
 					<button type="submit" class="btn">Join Chat</button>
 				</form>
+
+			
+
 			</main>
 		</div>
+
+		<form 
+		action="/dashboard/upload-profile-pic" 
+		method="post" 
+		enctype="multipart/form-data"
+		>
+			<input type="file" name="profile_pic"><br>
+			<input type="submit" value="Save">
+		</form>
+		<% if (images) { %>
+		<img src=".<%=images %>" /><br />
+		<% } %>
 
 <form action="" method="post" id="room_form">
     <input type="text" type="room" name="room" id="room_id" value="<%= typeof room != 'undefined' ? room : '' %>">

@@ -8,11 +8,10 @@ const server = http.createServer(app);
 const socket = require("socket.io");
 const io = socket(server);
 const Room = require("../models/rooms");
-
-/* GET users listing. */
+let images = "";
 
 //* Hämta in rumnamnen från databasen
-router.get("/:email", function (req, res, next) {
+router.get("/", function (req, res, next) {
   Room.find({})
     .exec()
     .then((result) => {
@@ -29,18 +28,14 @@ router.get("/:email", function (req, res, next) {
     });
 });
 
-router.get("/edit-profile", function (req, res, next) {
-  res.render("edit-profile");
-});
-
 router.get("/view-profile", function (req, res, next) {
   res.render("view-profile");
 });
 
-router.get("/chatroom", function (req, res, next) {
-  res.redirect("chatroom");
-});
 router.post("/:email", function (request, response) {
+  console.log("HÄR ÄR PROBLEMET!!!!!");
+  response.redirect("back");
+  /*
   const { room } = request.body;
   console.log(request.body);
   const newRoom = new Room({
@@ -56,6 +51,7 @@ router.post("/:email", function (request, response) {
       response.end();
     })
     .catch((error) => console.log(error));
+    */
 });
 
 //* Se variabeln file_name
@@ -72,7 +68,7 @@ router.use(express.urlencoded({ extended: true }));
 //router.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 //* Hantera det som händer när vi submitar en bildfil
-router.post("/view-profile", (request, response) => {
+router.post("/upload-profile-pic", (request, response) => {
   try {
     if (request.files) {
       let profile_pic = request.files.profile_pic;
@@ -84,12 +80,14 @@ router.post("/view-profile", (request, response) => {
       //*mv är en inbyggd metod som hjälper oss ange vart filen ska hamna
       profile_pic.mv(file_name);
 
-      response.render("view-profile", { images: [file_name] });
+      response.render("/", { images: [file_name] });
     } else {
       response.end("<h1>No file uploaded !</h1>");
     }
   } catch (error) {}
 });
+
+//* Ladda upp
 
 module.exports = router;
 

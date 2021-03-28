@@ -50,6 +50,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", require("./routes/index"));
 app.use("/users", require("./routes/users"));
 app.use("/dashboard", require("./routes/dashboard"));
+app.use("/edit-profile", require("./routes/edit-profile"));
+app.use("/view-profile", require("./routes/view-profile"));
+
 app.use("/chatroom", require("./routes/chatroom"));
 
 //* Koppla ihop app med databas
