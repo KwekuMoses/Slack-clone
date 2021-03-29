@@ -13,6 +13,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  profile_pic: {
+    type: String,
+    default: "",
+    required: false,
+  },
   date: {
     type: Date,
     default: Date.now,

@@ -4,7 +4,7 @@ var router = express.Router(app);
 
 router.get("/dashboard", function (req, res, next) {
   console.log(request.user);
-  res.render("view-profile", { email });
+  res.render("view-profile");
 });
 
 /*

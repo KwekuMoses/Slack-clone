@@ -17,14 +17,18 @@ router.get("/", function (req, res, next) {
     .then((result) => {
       return result;
     })
-    .then((result2) => {
-      console.log(result2);
+    .then((available_rooms) => {
+      console.log("dashboard.js ->  " + available_rooms);
 
       let current_user = req.user;
       let username = req.user.name;
+      let profile_pic = req.user.profile_pic;
+      console.log("HÄR " + profile_pic);
       console.log(`dashboard.js -> Body of current user is :  ${current_user}`);
       console.log(`dashboard.js -> name of current user is :  ${username}`);
-      res.render("dashboard", { data: { username, result2 } });
+      res.render("dashboard", {
+        data: { username, available_rooms, profile_pic },
+      });
     });
 });
 

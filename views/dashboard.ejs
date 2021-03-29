@@ -1,4 +1,3 @@
-<% var images; %>
 
 
 <h1>
@@ -33,9 +32,9 @@
 						<label for="room">Room</label>
 						<select name="room" id="room">
 							<!--* Denna lista nedan hämtar dess value från databasen kollektionen heter rooms och använder models/rooms.js-->
-							<%  data.result2.forEach((element) => { %>
-									<option value="<%=element.room %>">
-										<%=element.room %>
+							<%  data.available_rooms.forEach((room) => { %>
+									<option value="<%=room.room %>">
+										<%=room.room %>
 									</option>
 								<% }) %>
 						</select>
@@ -48,17 +47,10 @@
 			</main>
 		</div>
 
-		<form 
-		action="/dashboard/upload-profile-pic" 
-		method="post" 
-		enctype="multipart/form-data"
-		>
-			<input type="file" name="profile_pic"><br>
-			<input type="submit" value="Save">
-		</form>
-		<% if (images) { %>
-		<img src=".<%=images %>" /><br />
-		<% } %>
+		<p><%= data.username %></p>
+
+		<img src=".<%=data.profile_pic %>" /><br />
+
 
 <form action="" method="post" id="room_form">
     <input type="text" type="room" name="room" id="room_id" value="<%= typeof room != 'undefined' ? room : '' %>">
@@ -66,4 +58,3 @@
 </form>
 
 
-<script src="/js/handle_rooms.js"></script>
