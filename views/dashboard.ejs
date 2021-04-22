@@ -28,12 +28,12 @@
 
 		<p>Welcome! <%= data.username %></p>
 
-		<img src=".<%=data.profile_pic %>" /><br />
+		<img src=".<%= data.profile_pic %>" /><br />
 
 		<div class="form-control">
 			<label for="room">Room</label>
 			<select name="room" id="room">
-				<!--* Denna lista nedan hämtar dess value från databasen kollektionen heter rooms och använder models/rooms.js-->
+				<!--* Denna lista nedan hämtar dess value från databasen. kollektionen heter rooms och använder models/rooms.js-->
 				<%  data.available_rooms.forEach((room) => { %>
 						<option value="<%=room.room %>">
 							<%=room.room %>

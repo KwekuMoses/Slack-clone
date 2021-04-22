@@ -36,10 +36,10 @@ router.get("/view-profile", function (req, res, next) {
   res.render("view-profile");
 });
 
-router.post("/:email", function (request, response) {
-  console.log("HÄR ÄR PROBLEMET!!!!!");
+router.post("/", function (request, response) {
+
   response.redirect("back");
-  /*
+  
   const { room } = request.body;
   console.log(request.body);
   const newRoom = new Room({
@@ -55,7 +55,7 @@ router.post("/:email", function (request, response) {
       response.end();
     })
     .catch((error) => console.log(error));
-    */
+    
 });
 
 //* Se variabeln file_name
